@@ -7,13 +7,16 @@ import contactRoutes from './routes/contactRoutes.js';
 
 const app = express();
 
-// Apply CORS middleware globally for all routes and methods
 const corsOptions = {
   origin: ['http://localhost:5173', 'https://studio.apicur.io'],
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  optionsSuccessStatus: 204,
 };
-app.use(cors(corsOptions));
-app.use(express.json()); // Body parser
+
+app.use(cors(corsOptions)); // CORS for all routes & methods
+app.use(express.json());
 
 // Routes
 app.use('/api', contactRoutes);
