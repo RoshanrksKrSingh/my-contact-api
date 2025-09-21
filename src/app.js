@@ -7,26 +7,35 @@ import contactRoutes from './routes/contactRoutes.js';
 
 const app = express();
 
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://my-contact-api-seven.vercel.app',
+  'https://studio.apicur.io',
+];
+
 const corsOptions = {
-  origin: [
-    'http://localhost:5173',
-    'https://my-contact-api-seven.vercel.app',
-    'https://studio.apicur.io',
-  ],
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   optionsSuccessStatus: 204,
 };
 
-app.use(cors(corsOptions));  // <-- This already enables CORS and handles OPTIONS requests.
+// Use CORS before anything else
+app.use(cors(corsOptions));
+
+// Explicitly handle OPTIONS preflight
+// app.options(cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Remove or comment out the following if present:
-// app.options('*', cors(corsOptions));
-// app.options('/*', cors(corsOptions));
 
 app.use('/api', contactRoutes);
 app.use('/api-docs', serve, setup(swaggerSpec));
