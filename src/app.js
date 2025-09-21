@@ -6,16 +6,20 @@ import swaggerSpec from './swagger/swagger.js';
 import contactRoutes from './routes/contactRoutes.js';
 
 const app = express();
-
+const isProd = process.env.NODE_ENV === 'production';
 const corsOptions = {
-  origin: ['http://localhost:5173', 'https://studio.apicur.io'],
+  origin: [
+    'http://localhost:5173',
+    'https://my-contact-api-seven.vercel.app',
+    // 'https://superlative-cheesecake-a8cf3e.netlify.app',
+    'https://studio.apicur.io',
+  ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   optionsSuccessStatus: 204,
 };
-
-app.use(cors(corsOptions)); // CORS for all routes & methods
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // Routes
