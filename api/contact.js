@@ -1,5 +1,5 @@
-const serverless = require('serverless-http');
-const express = require('express');
+import serverless from 'serverless-http';
+import express from 'express';
 
 const app = express();
 app.use(express.json());
@@ -17,5 +17,5 @@ app.post('/api/contact', (req, res) => {
   res.status(200).json({ message: 'Message received' });
 });
 
-module.exports = app;
-module.exports.handler = serverless(app);
+export default app;
+export const handler = serverless(app);
