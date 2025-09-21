@@ -17,7 +17,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions)); // CORS for all routes & methods
 app.use(express.json());
-
+app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use('/api', contactRoutes);
 app.use('/api-docs', serve, setup(swaggerSpec));
