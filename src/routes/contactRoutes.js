@@ -1,6 +1,7 @@
-const express = require('express');
+import express from 'express';
+import { submitContact } from '../controllers/contactController.js';
+
 const router = express.Router();
-const { submitContact } = require('../controllers/contactController');
 
 /**
  * @swagger
@@ -40,4 +41,4 @@ const { submitContact } = require('../controllers/contactController');
  */
 router.post('/contact', submitContact);
 
-module.exports = router;
+export default router;

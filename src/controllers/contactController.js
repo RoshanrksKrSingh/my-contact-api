@@ -1,6 +1,7 @@
-const { sendContactEmail } = require('../utils/mailer');
+import { sendContactEmail } from '../utils/mailer.js';
 
-exports.submitContact = async (req, res) => {
+
+export async function submitContact(req, res) {
   const { name, email, message } = req.body;
 
   if (!name || !email || !message) {
@@ -19,4 +20,4 @@ exports.submitContact = async (req, res) => {
       error: 'Failed to send email. Please try again later.',
     });
   }
-};
+}

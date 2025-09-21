@@ -2,17 +2,17 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import { serve, setup } from 'swagger-ui-express';
-import swaggerSpec from './swagger/swagger.js'; // ✅ include .js extension
-import contactRoutes from './routes/contactRoutes.js'; // ✅ include .js extension
+import swaggerSpec from './swagger/swagger.js';
+import contactRoutes from './routes/contactRoutes.js';
 
 const app = express();
 
-// ✅ Middleware
+// Apply CORS middleware globally for all routes and methods
 app.use(cors({ origin: 'http://localhost:5173' }));
 
-app.use(express.json()); // ✅ No need for body-parser
+app.use(express.json()); // Body parser
 
-// ✅ Routes
+// Routes
 app.use('/api', contactRoutes);
 app.use('/api-docs', serve, setup(swaggerSpec));
 

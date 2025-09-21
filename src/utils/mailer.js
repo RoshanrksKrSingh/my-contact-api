@@ -1,16 +1,17 @@
-const nodemailer = require('nodemailer');
+// mailer.js
+import { createTransport } from 'nodemailer';
 
-const transporter = nodemailer.createTransport({
+const transporter = createTransport({
   host: process.env.MAIL_HOST,
   port: Number(process.env.MAIL_PORT),
-  secure: process.env.MAIL_PORT == '465', // true for 465, false for other ports
+  secure: process.env.MAIL_PORT == '465',
   auth: {
     user: process.env.MAIL_USER,
     pass: process.env.MAIL_PASS,
   },
 });
 
-const sendContactEmail = async ({ name, email, message }) => {
+export const sendContactEmail = async ({ name, email, message }) => {
   const mailOptions = {
     from: `"${name}" <${email}>`,
     to: process.env.MAIL_TO,
@@ -22,8 +23,6 @@ const sendContactEmail = async ({ name, email, message }) => {
     await transporter.sendMail(mailOptions);
   } catch (error) {
     console.error('Error sending email:', error);
-    throw error; // re-throw so the controller can handle it
+    throw error;
   }
 };
-
-module.exports = { sendContactEmail };
