@@ -9,7 +9,7 @@ const app = express();
 
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://my-contact-api-seven.vercel.app',
+  // 'https://my-contact-api-seven.vercel.app',
   'https://studio.apicur.io',
 ];
 
@@ -32,7 +32,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Explicitly handle OPTIONS preflight
-// app.options(cors(corsOptions));
+// app.options('/*', cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
