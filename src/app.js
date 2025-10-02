@@ -7,26 +7,25 @@ import contactRoutes from './routes/contactRoutes.js';
 
 const app = express();
 
-// CORS configuration
-const corsOptions = {
+// Allow requests from Netlify + localhost
+app.use(cors({
   origin: [
-    'http://localhost:5173',                 // Local dev
-    'https://my-porfoli.netlify.app/', // Your Netlify frontend
+    'http://localhost:5173',                 // local dev
+    'https://my-porfoli.netlify.app',       // Netlify frontend
   ],
-  credentials: true,
-};
-app.use(cors(corsOptions));
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true, // important if sending cookies
+}));
 
-// Parse JSON requests
 app.use(express.json());
 
-// Contact routes
+// Routes
 app.use('/api', contactRoutes);
 
-// Swagger API docs
+// Swagger
 app.use('/api-docs', serve, setup(swaggerSpec));
 
-// Health check route
 app.get('/', (req, res) => {
   res.send('✅ Contact API is running');
 });
@@ -34,6 +33,5 @@ app.get('/', (req, res) => {
 // Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-  console.log(`Swagger Docs available at http://localhost:${PORT}/api-docs`);
+  console.log(`Server running on port ${PORT}`);
 });
